@@ -63,7 +63,6 @@ const AddCourseForm = () => {
 
     showNotice(`Đã thêm môn ${trimmedName}`);
 
-    // Xóa trắng form về mặc định
     setCode('');
     setName('');
     setCredits(3);

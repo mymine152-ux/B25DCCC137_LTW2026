@@ -30,14 +30,12 @@ const App = () => {
 
   const { data: initialData, loading, error } = useFetch('/data/courses.json');
 
-  // Nạp dữ liệu mẫu ban đầu nếu chưa có saved
   useEffect(() => {
     if (!hasSaved && initialData && courses.length === 0) {
       dispatch(setCourses(initialData));
     }
   }, [initialData, dispatch, courses.length]);
 
-  // Phím tắt / và Esc cho ô tìm kiếm
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === '/') {
@@ -62,12 +60,10 @@ const App = () => {
     };
   }, []);
 
-  // Xử lý ô tìm kiếm với tên hàm bắt buộc
   const handleCourseShift = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Callback ổn định cho CourseRow
   const handleScoreChange = useCallback(
     (id, score) => {
       dispatch(setScore({ id, score }));
@@ -83,7 +79,6 @@ const App = () => {
     [dispatch, showNotice]
   );
 
-  // Đặt lại dữ liệu mẫu
   const handleResetSampleData = () => {
     if (initialData) {
       dispatch(setCourses(initialData));
@@ -91,7 +86,6 @@ const App = () => {
     }
   };
 
-  // Môn học lọc theo học kỳ (dùng cho thống kê và phân bố)
   const semesterFilteredCourses = useMemo(() => {
     if (selectedSemester === 'all') {
       return courses;
@@ -99,11 +93,9 @@ const App = () => {
     return courses.filter((c) => c.semester === selectedSemester);
   }, [courses, selectedSemester]);
 
-  // Thống kê 4 dòng đầu theo học kỳ đang chọn, dòng cuối tích lũy toàn bộ
   const semesterStats = useMemo(() => calcStats(semesterFilteredCourses), [semesterFilteredCourses]);
   const cumulativeStats = useMemo(() => calcStats(courses), [courses]);
 
-  // Tiêu đề tab trình duyệt
   useEffect(() => {
     if (courses.length > 0) {
       document.title = `GPA ${cumulativeStats.gpa.toFixed(2)} – Sổ điểm`;
@@ -112,7 +104,6 @@ const App = () => {
     }
   }, [courses.length, cumulativeStats.gpa]);
 
-  // Bảng môn học lọc thêm theo debounce search
   const displayedCourses = useMemo(() => {
     const trimmed = debouncedSearch.trim().toLowerCase();
     return semesterFilteredCourses.filter((c) => {
@@ -124,7 +115,6 @@ const App = () => {
     });
   }, [semesterFilteredCourses, debouncedSearch]);
 
-  // Phân bố điểm chữ theo thứ tự GRADES
   const gradeDistribution = useMemo(() => {
     return GRADES.map((g) => {
       const count = semesterFilteredCourses.filter((c) => {
@@ -156,11 +146,11 @@ const App = () => {
         </div>
       </header>
 
-      {/* Hiển thị trạng thái tải khi chưa có dữ liệu lưu */}
+      {}
       {!hasSaved && loading && <p>Đang tải bảng điểm...</p>}
       {!hasSaved && error && <p>Không tải được bảng điểm</p>}
 
-      {/* Khu vực Thống kê */}
+      {}
       <section className="stat-box" style={{ margin: '20px 0', padding: '16px', border: '1px solid #ccc', borderRadius: '8px' }}>
         <h2>Thống kê</h2>
         <div style={{ lineHeight: '1.8' }}>
@@ -171,7 +161,7 @@ const App = () => {
           <div>GPA tích lũy: {cumulativeStats.gpa.toFixed(2)}</div>
         </div>
 
-        {/* Phân bố điểm chữ */}
+        {}
         <div style={{ marginTop: '16px' }}>
           <h3 style={{ margin: '0 0 8px 0' }}>Phân bố điểm chữ</h3>
           <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
@@ -203,7 +193,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* Lọc học kỳ & Tìm môn học */}
+      {}
       <section style={{ margin: '20px 0', display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
         <div>
           <label htmlFor="select-semester" style={{ marginRight: '8px', fontWeight: 'bold' }}>
@@ -244,7 +234,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* Bảng điểm */}
+      {}
       <section style={{ margin: '20px 0' }}>
         {courses.length === 0 ? (
           <p>Chưa có môn học nào</p>
@@ -295,10 +285,10 @@ const App = () => {
         </div>
       </section>
 
-      {/* Form thêm môn học */}
+      {}
       <AddCourseForm />
 
-      {/* Mục tiêu GPA */}
+      {}
       <GoalPlanner />
     </div>
   );
