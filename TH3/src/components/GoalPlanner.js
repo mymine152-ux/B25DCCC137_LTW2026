@@ -14,32 +14,48 @@ const GoalPlanner = () => {
   }, [courses, target, remaining]);
 
   return (
-    <div style={{ margin: '20px 0', padding: '16px', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h3>Mục tiêu GPA</h3>
+    <div className="card">
+      <h3 className="card-title">Mục tiêu GPA</h3>
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
         <div>
-          <label htmlFor="goal-target" style={{ marginRight: '8px' }}>GPA mục tiêu:</label>
+          <label htmlFor="goal-target" style={{ marginRight: '8px', fontSize: '14px', fontWeight: 600 }}>
+            GPA mục tiêu:
+          </label>
           <input
             id="goal-target"
+            className="input-control"
             type="number"
             step="0.01"
             value={target}
             onChange={(e) => dispatch(setTarget(e.target.value))}
-            style={{ width: '90px', padding: '6px' }}
+            style={{ width: '100px' }}
           />
         </div>
         <div>
-          <label htmlFor="goal-remaining" style={{ marginRight: '8px' }}>Số tín chỉ còn lại:</label>
+          <label htmlFor="goal-remaining" style={{ marginRight: '8px', fontSize: '14px', fontWeight: 600 }}>
+            Số tín chỉ còn lại:
+          </label>
           <input
             id="goal-remaining"
+            className="input-control"
             type="number"
             value={remaining}
             onChange={(e) => dispatch(setRemaining(e.target.value))}
-            style={{ width: '90px', padding: '6px' }}
+            style={{ width: '100px' }}
           />
         </div>
       </div>
-      <div style={{ marginTop: '14px', fontWeight: 'bold', fontSize: '15px' }}>
+      <div
+        style={{
+          marginTop: '16px',
+          padding: '12px 16px',
+          borderRadius: '8px',
+          backgroundColor: 'rgba(59, 130, 246, 0.08)',
+          borderLeft: '4px solid #3b82f6',
+          fontWeight: 600,
+          fontSize: '15px',
+        }}
+      >
         {resultText}
       </div>
     </div>
@@ -47,4 +63,3 @@ const GoalPlanner = () => {
 };
 
 export default GoalPlanner;
-

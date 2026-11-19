@@ -11,7 +11,7 @@ const coursesSlice = createSlice({
       const maxId = state.reduce((max, item) => (item.id > max ? item.id : max), 0);
       const newCourse = {
         ...action.payload,
-        id: maxId + 1,
+        id: action.payload.id || maxId + 1,
       };
       state.push(newCourse);
     },

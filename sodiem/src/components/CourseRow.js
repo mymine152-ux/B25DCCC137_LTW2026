@@ -12,13 +12,13 @@ const CourseRow = ({ course, onScore, onRemove }) => {
   return (
     <tr
       style={{
-        color: isF ? '#c62828' : 'inherit',
-        backgroundColor: isF ? 'rgba(198, 40, 40, 0.05)' : 'transparent',
+        color: isF ? '#ef4444' : 'inherit',
+        backgroundColor: isF ? 'rgba(239, 68, 68, 0.06)' : 'transparent',
       }}
     >
-      <td>{course.code}</td>
+      <td style={{ fontWeight: 600 }}>{course.code}</td>
       <td>{course.name}</td>
-      <td>{course.credits}</td>
+      <td style={{ textAlign: 'center' }}>{course.credits}</td>
       <td>{course.semester}</td>
       <td>
         <input
@@ -34,23 +34,18 @@ const CourseRow = ({ course, onScore, onRemove }) => {
               onScore(course.id, val);
             }
           }}
-          style={{ width: '70px', padding: '4px 6px' }}
+          className="input-control"
+          style={{ width: '75px', textAlign: 'center', padding: '4px 6px' }}
         />
       </td>
-      <td>{isF ? 'F – Học lại' : gradeInfo.letter}</td>
+      <td style={{ fontWeight: 600 }}>{isF ? 'F – Học lại' : gradeInfo.letter}</td>
       <td>{formatPoint(gradeInfo.point)}</td>
       <td style={{ textAlign: 'center', fontWeight: 'bold' }}>{renderCountRef.current}</td>
       <td>
         <button
           onClick={() => onRemove(course.id, course.name)}
-          style={{
-            padding: '4px 10px',
-            backgroundColor: '#d32f2f',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className="btn btn-danger"
+          style={{ padding: '4px 10px', fontSize: '13px' }}
         >
           Xóa
         </button>
@@ -60,4 +55,3 @@ const CourseRow = ({ course, onScore, onRemove }) => {
 };
 
 export default React.memo(CourseRow);
-

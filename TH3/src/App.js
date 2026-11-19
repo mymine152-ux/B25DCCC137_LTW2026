@@ -127,169 +127,165 @@ const App = () => {
 
   return (
     <div className={`app ${theme}`} data-build={BUILD_TAG}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <div>
-          <h1 style={{ margin: '0 0 8px 0' }}>Sổ điểm sinh viên</h1>
-          <button
-            onClick={toggleTheme}
-            style={{
-              padding: '6px 14px',
-              backgroundColor: theme === 'light' ? '#333' : '#eee',
-              color: theme === 'light' ? '#fff' : '#000',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            {theme === 'light' ? 'Chế độ tối' : 'Chế độ sáng'}
+      <div className="app-container">
+        <header className="app-header">
+          <div>
+            <h1 style={{ margin: 0, fontSize: '28px', fontWeight: 800 }}>Sổ điểm sinh viên</h1>
+            <p style={{ margin: '6px 0 0 0', opacity: 0.75, fontSize: '14px' }}>
+              Quản lý học phần, tính toán GPA và dự phóng mục tiêu học tập
+            </p>
+          </div>
+          <button onClick={toggleTheme} className="theme-toggle-btn">
+            {theme === 'light' ? ' Chế độ tối' : ' Chế độ sáng'}
           </button>
+        </header>
+
+        {!hasSaved && loading && <p>Đang tải bảng điểm...</p>}
+        {!hasSaved && error && <p>Không tải được bảng điểm</p>}
+
+        <div className="dashboard-grid">
+          <section className="card">
+            <h2 className="card-title">Thống kê</h2>
+            <div className="stats-list">
+              <div className="stats-item">
+                <span>Số môn học:</span>
+                <strong>{semesterStats.count}</strong>
+              </div>
+              <div className="stats-item">
+                <span>Tổng số tín chỉ:</span>
+                <strong>{semesterStats.credits}</strong>
+              </div>
+              <div className="stats-item">
+                <span>GPA (hệ 4):</span>
+                <strong>{semesterStats.gpa.toFixed(2)}</strong>
+              </div>
+              <div className="stats-item">
+                <span>Xếp loại học tập:</span>
+                <strong>{semesterStats.rank}</strong>
+              </div>
+              <div className="stats-item" style={{ borderBottom: 'none' }}>
+                <span>GPA tích lũy:</span>
+                <strong style={{ color: '#2563eb' }}>{cumulativeStats.gpa.toFixed(2)}</strong>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '20px' }}>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '15px', fontWeight: 700 }}>Phân bố điểm chữ</h3>
+              <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
+                {gradeDistribution.map(({ letter, count }) => (
+                  <li
+                    key={letter}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '6px',
+                      fontSize: '13px',
+                    }}
+                  >
+                    <span style={{ width: '45px', fontWeight: 600 }}>{`${letter}: ${count}`}</span>
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        height: '10px',
+                        width: `${24 * count}px`,
+                        backgroundColor: '#2563eb',
+                        borderRadius: '3px',
+                        marginLeft: '8px',
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <GoalPlanner />
         </div>
-      </header>
 
-      {}
-      {!hasSaved && loading && <p>Đang tải bảng điểm...</p>}
-      {!hasSaved && error && <p>Không tải được bảng điểm</p>}
-
-      {}
-      <section className="stat-box" style={{ margin: '20px 0', padding: '16px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h2>Thống kê</h2>
-        <div style={{ lineHeight: '1.8' }}>
-          <div>Số môn: {semesterStats.count}</div>
-          <div>Tổng tín chỉ: {semesterStats.credits}</div>
-          <div>GPA (hệ 4): {semesterStats.gpa.toFixed(2)}</div>
-          <div>Xếp loại: {semesterStats.rank}</div>
-          <div>GPA tích lũy: {cumulativeStats.gpa.toFixed(2)}</div>
-        </div>
-
-        {}
-        <div style={{ marginTop: '16px' }}>
-          <h3 style={{ margin: '0 0 8px 0' }}>Phân bố điểm chữ</h3>
-          <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
-            {gradeDistribution.map(({ letter, count }) => (
-              <li
-                key={letter}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '6px',
-                  fontSize: '14px',
-                }}
+        <section className="card">
+          <div className="toolbar">
+            <div>
+              <label htmlFor="select-semester" style={{ marginRight: '8px', fontWeight: 600, fontSize: '14px' }}>
+                Xem học kỳ:
+              </label>
+              <select
+                id="select-semester"
+                className="select-control"
+                value={selectedSemester}
+                onChange={(e) => setSelectedSemester(e.target.value)}
               >
-                <span style={{ width: '50px' }}>{`${letter}: ${count}`}</span>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    height: '10px',
-                    width: `${24 * count}px`,
-                    backgroundColor: '#1976d2',
-                    borderRadius: '2px',
-                    marginLeft: '8px',
-                    verticalAlign: 'middle',
-                  }}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+                <option value="all">Tất cả</option>
+                {SEMESTERS.map((sem) => (
+                  <option key={sem} value={sem}>
+                    {sem}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      {}
-      <section style={{ margin: '20px 0', display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-        <div>
-          <label htmlFor="select-semester" style={{ marginRight: '8px', fontWeight: 'bold' }}>
-            Xem học kỳ:
-          </label>
-          <select
-            id="select-semester"
-            value={selectedSemester}
-            onChange={(e) => setSelectedSemester(e.target.value)}
-            style={{ padding: '6px 12px' }}
-          >
-            <option value="all">Tất cả</option>
-            {SEMESTERS.map((sem) => (
-              <option key={sem} value={sem}>
-                {sem}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div style={{ flex: 1, minWidth: '240px' }}>
+              <input
+                id="search-input"
+                className="input-control"
+                ref={searchInputRef}
+                type="text"
+                placeholder="Tìm môn học theo mã hoặc tên (Phím tắt: /)"
+                value={searchTerm}
+                onChange={handleCourseShift}
+                style={{ width: '100%' }}
+              />
+            </div>
 
-        <div>
-          <label htmlFor="search-input" style={{ marginRight: '8px', fontWeight: 'bold' }}>
-            Tìm môn học:
-          </label>
-          <input
-            id="search-input"
-            ref={searchInputRef}
-            type="text"
-            placeholder="Tìm theo tên hoặc mã môn (Phím tắt: /)"
-            value={searchTerm}
-            onChange={handleCourseShift}
-            style={{ padding: '6px 12px', minWidth: '260px' }}
-          />
-        </div>
+            <div>
+              <span style={{ fontSize: '14px', fontWeight: 600, opacity: 0.85 }}>
+                Tìm thấy {displayedCourses.length} môn
+              </span>
+            </div>
+          </div>
 
-        <div>
-          <span>Tìm thấy {displayedCourses.length} môn</span>
-        </div>
-      </section>
+          <div className="table-responsive">
+            {courses.length === 0 ? (
+              <p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.6 }}>Chưa có môn học nào</p>
+            ) : displayedCourses.length === 0 ? (
+              <p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.6 }}>Không tìm thấy môn học phù hợp</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã môn</th>
+                    <th>Tên môn</th>
+                    <th style={{ textAlign: 'center' }}>Tín chỉ</th>
+                    <th>Học kỳ</th>
+                    <th>Điểm (hệ 10)</th>
+                    <th>Điểm chữ</th>
+                    <th>Điểm (hệ 4)</th>
+                    <th style={{ textAlign: 'center' }}>Số lần render</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayedCourses.map((c) => (
+                    <CourseRow
+                      key={c.id}
+                      course={c}
+                      onScore={handleScoreChange}
+                      onRemove={handleRemoveCourse}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
 
-      {}
-      <section style={{ margin: '20px 0' }}>
-        {courses.length === 0 ? (
-          <p>Chưa có môn học nào</p>
-        ) : displayedCourses.length === 0 ? (
-          <p>Chưa có môn học nào phù hợp với tìm kiếm</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Mã môn</th>
-                <th>Tên môn</th>
-                <th>Tín chỉ</th>
-                <th>Học kỳ</th>
-                <th>Điểm (hệ 10)</th>
-                <th>Điểm chữ</th>
-                <th>Điểm (hệ 4)</th>
-                <th style={{ textAlign: 'center' }}>Số lần render</th>
-                <th>Xóa</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayedCourses.map((c) => (
-                <CourseRow
-                  key={c.id}
-                  course={c}
-                  onScore={handleScoreChange}
-                  onRemove={handleRemoveCourse}
-                />
-              ))}
-            </tbody>
-          </table>
-        )}
+          <div style={{ marginTop: '20px' }}>
+            <button onClick={handleResetSampleData} className="btn btn-secondary">
+              Đặt lại dữ liệu mẫu
+            </button>
+          </div>
+        </section>
 
-        <div style={{ marginTop: '16px' }}>
-          <button
-            onClick={handleResetSampleData}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#546e7a',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            Đặt lại dữ liệu mẫu
-          </button>
-        </div>
-      </section>
-
-      {}
-      <AddCourseForm />
-
-      {}
-      <GoalPlanner />
+        <AddCourseForm />
+      </div>
     </div>
   );
 };

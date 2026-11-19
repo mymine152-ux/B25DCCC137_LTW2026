@@ -75,111 +75,116 @@ const AddCourseForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ margin: '20px 0', padding: '16px', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h3>Thêm môn học</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-        <div>
-          <label htmlFor="course-code" style={{ display: 'block', marginBottom: '4px' }}>Mã môn:</label>
-          <input
-            id="course-code"
-            type="text"
-            ref={codeInputRef}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            style={{ width: '100%', padding: '6px', boxSizing: 'border-box' }}
-          />
-          {errors.code && (
-            <div role="alert" style={{ color: '#d32f2f', fontSize: '12px', marginTop: '4px' }}>
-              {errors.code}
-            </div>
-          )}
+    <div className="card" style={{ marginTop: '24px' }}>
+      <h3 className="card-title">Thêm môn học</h3>
+      <form onSubmit={handleSubmit}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+          <div>
+            <label htmlFor="course-code" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
+              Mã môn:
+            </label>
+            <input
+              id="course-code"
+              className="input-control"
+              type="text"
+              ref={codeInputRef}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              style={{ width: '100%' }}
+            />
+            {errors.code && (
+              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+                {errors.code}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="course-name" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
+              Tên môn:
+            </label>
+            <input
+              id="course-name"
+              className="input-control"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ width: '100%' }}
+            />
+            {errors.name && (
+              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+                {errors.name}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="course-credits" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
+              Số tín chỉ:
+            </label>
+            <select
+              id="course-credits"
+              className="select-control"
+              value={credits}
+              onChange={(e) => setCredits(Number(e.target.value))}
+              style={{ width: '100%' }}
+            >
+              {CREDIT_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="course-semester" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
+              Học kỳ:
+            </label>
+            <select
+              id="course-semester"
+              className="select-control"
+              value={semester}
+              onChange={(e) => setSemester(e.target.value)}
+              style={{ width: '100%' }}
+            >
+              {SEMESTERS.map((sem) => (
+                <option key={sem} value={sem}>
+                  {sem}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="course-score" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
+              Điểm hệ 10:
+            </label>
+            <input
+              id="course-score"
+              className="input-control"
+              type="number"
+              step="0.1"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+              style={{ width: '100%' }}
+            />
+            {errors.score && (
+              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+                {errors.score}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="course-name" style={{ display: 'block', marginBottom: '4px' }}>Tên môn:</label>
-          <input
-            id="course-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ width: '100%', padding: '6px', boxSizing: 'border-box' }}
-          />
-          {errors.name && (
-            <div role="alert" style={{ color: '#d32f2f', fontSize: '12px', marginTop: '4px' }}>
-              {errors.name}
-            </div>
-          )}
+        <div style={{ marginTop: '20px' }}>
+          <button type="submit" className="btn btn-primary">
+            Thêm môn
+          </button>
         </div>
-
-        <div>
-          <label htmlFor="course-credits" style={{ display: 'block', marginBottom: '4px' }}>Số tín chỉ:</label>
-          <select
-            id="course-credits"
-            value={credits}
-            onChange={(e) => setCredits(Number(e.target.value))}
-            style={{ width: '100%', padding: '6px', boxSizing: 'border-box' }}
-          >
-            {CREDIT_OPTIONS.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="course-semester" style={{ display: 'block', marginBottom: '4px' }}>Học kỳ:</label>
-          <select
-            id="course-semester"
-            value={semester}
-            onChange={(e) => setSemester(e.target.value)}
-            style={{ width: '100%', padding: '6px', boxSizing: 'border-box' }}
-          >
-            {SEMESTERS.map((sem) => (
-              <option key={sem} value={sem}>
-                {sem}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="course-score" style={{ display: 'block', marginBottom: '4px' }}>Điểm hệ 10:</label>
-          <input
-            id="course-score"
-            type="number"
-            step="0.1"
-            value={score}
-            onChange={(e) => setScore(e.target.value)}
-            style={{ width: '100%', padding: '6px', boxSizing: 'border-box' }}
-          />
-          {errors.score && (
-            <div role="alert" style={{ color: '#d32f2f', fontSize: '12px', marginTop: '4px' }}>
-              {errors.score}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div style={{ marginTop: '16px' }}>
-        <button
-          type="submit"
-          style={{
-            padding: '8px 18px',
-            backgroundColor: '#1976d2',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-          }}
-        >
-          Thêm môn
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 
 export default AddCourseForm;
-
