@@ -131,201 +131,166 @@ const App = () => {
 
   return (
     <div className={`app ${theme}`} data-build={BUILD_TAG}>
-      <div className="app-container">
-        <header className="app-header">
-          <div>
-            <h1 style={{ margin: 0, fontSize: '26px', fontWeight: 800 }}>Sổ điểm sinh viên</h1>
-            <p style={{ margin: '4px 0 0 0', opacity: 0.75, fontSize: '14px' }}>
-              Quản lý học phần, tính GPA & Dự phóng mục tiêu học tập
-            </p>
-          </div>
-          <button onClick={toggleTheme} className="theme-toggle-btn">
+      <div className="container">
+        <div className="header">
+          <h1>Sổ điểm sinh viên</h1>
+          <button onClick={toggleTheme} className="btn">
             {theme === 'light' ? 'Chế độ tối' : 'Chế độ sáng'}
           </button>
-        </header>
+        </div>
 
-        {/* 3 ĐỀ MỤC TABS ĐIỀU HƯỚNG */}
-        <nav className="tabs-navigation">
+        <div className="nav-tabs">
           <button
             onClick={() => setActiveTab('table')}
-            className={`tab-btn ${activeTab === 'table' ? 'active' : ''}`}
+            className={activeTab === 'table' ? 'active' : ''}
           >
-            📋 Bảng điểm môn học
+            Bảng điểm
           </button>
           <button
             onClick={() => setActiveTab('stats')}
-            className={`tab-btn ${activeTab === 'stats' ? 'active' : ''}`}
+            className={activeTab === 'stats' ? 'active' : ''}
           >
-            📊 Thống kê & Mục tiêu
+            Thống kê & Mục tiêu
           </button>
           <button
             onClick={() => setActiveTab('add')}
-            className={`tab-btn ${activeTab === 'add' ? 'active' : ''}`}
+            className={activeTab === 'add' ? 'active' : ''}
           >
-            ➕ Thêm môn học
+            Thêm môn học
           </button>
-        </nav>
+        </div>
 
         {!hasSaved && loading && <p>Đang tải bảng điểm...</p>}
         {!hasSaved && error && <p>Không tải được bảng điểm</p>}
 
-        {/* PHẦN 1: BẢNG ĐIỂM MÔN HỌC */}
         {activeTab === 'table' && (
-          <div className="tab-panel">
-            <section className="card">
-              <div className="toolbar">
-                <div>
-                  <label htmlFor="select-semester" style={{ marginRight: '8px', fontWeight: 600, fontSize: '14px' }}>
-                    Xem học kỳ:
-                  </label>
-                  <select
-                    id="select-semester"
-                    className="select-control"
-                    value={selectedSemester}
-                    onChange={(e) => setSelectedSemester(e.target.value)}
-                  >
-                    <option value="all">Tất cả</option>
-                    {SEMESTERS.map((sem) => (
-                      <option key={sem} value={sem}>
-                        {sem}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div style={{ flex: 1, minWidth: '240px' }}>
-                  <input
-                    id="search-input"
-                    className="input-control"
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Tìm môn học theo mã hoặc tên (Phím tắt: /)"
-                    value={searchTerm}
-                    onChange={handleCourseShift}
-                    style={{ width: '100%' }}
-                  />
-                </div>
-
-                <div>
-                  <span style={{ fontSize: '14px', fontWeight: 600, opacity: 0.85 }}>
-                    Tìm thấy {displayedCourses.length} môn
-                  </span>
-                </div>
+          <div className="section-box">
+            <div className="filter-bar">
+              <div>
+                <label htmlFor="select-semester" style={{ marginRight: '6px' }}>
+                  Xem học kỳ:
+                </label>
+                <select
+                  id="select-semester"
+                  value={selectedSemester}
+                  onChange={(e) => setSelectedSemester(e.target.value)}
+                >
+                  <option value="all">Tất cả</option>
+                  {SEMESTERS.map((sem) => (
+                    <option key={sem} value={sem}>
+                      {sem}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="table-responsive">
-                {courses.length === 0 ? (
-                  <p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.6 }}>Chưa có môn học nào</p>
-                ) : displayedCourses.length === 0 ? (
-                  <p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.6 }}>Không tìm thấy môn học phù hợp</p>
-                ) : (
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Mã môn</th>
-                        <th>Tên môn</th>
-                        <th style={{ textAlign: 'center' }}>Tín chỉ</th>
-                        <th>Học kỳ</th>
-                        <th>Điểm (hệ 10)</th>
-                        <th>Điểm chữ</th>
-                        <th>Điểm (hệ 4)</th>
-                        <th style={{ textAlign: 'center' }}>Số lần render</th>
-                        <th>Xóa</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displayedCourses.map((c) => (
-                        <CourseRow
-                          key={c.id}
-                          course={c}
-                          onScore={handleScoreChange}
-                          onRemove={handleRemoveCourse}
-                        />
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+              <div>
+                <label htmlFor="search-input" style={{ marginRight: '6px' }}>
+                  Tìm môn học:
+                </label>
+                <input
+                  id="search-input"
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Nhập tên hoặc mã môn..."
+                  value={searchTerm}
+                  onChange={handleCourseShift}
+                  style={{ width: '220px' }}
+                />
               </div>
 
-              <div style={{ marginTop: '20px' }}>
-                <button onClick={handleResetSampleData} className="btn btn-secondary">
-                  Đặt lại dữ liệu mẫu
-                </button>
+              <div>
+                <span>Tìm thấy {displayedCourses.length} môn</span>
               </div>
-            </section>
-          </div>
-        )}
+            </div>
 
-        {/* PHẦN 2: THỐNG KÊ & MỤC TIÊU */}
-        {activeTab === 'stats' && (
-          <div className="tab-panel">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-              <section className="card">
-                <h2 className="card-title">Thống kê học tập</h2>
-                <div className="stats-list">
-                  <div className="stats-item">
-                    <span>Số môn học:</span>
-                    <strong>{semesterStats.count}</strong>
-                  </div>
-                  <div className="stats-item">
-                    <span>Tổng số tín chỉ:</span>
-                    <strong>{semesterStats.credits}</strong>
-                  </div>
-                  <div className="stats-item">
-                    <span>GPA (hệ 4):</span>
-                    <strong>{semesterStats.gpa.toFixed(2)}</strong>
-                  </div>
-                  <div className="stats-item">
-                    <span>Xếp loại:</span>
-                    <strong>{semesterStats.rank}</strong>
-                  </div>
-                  <div className="stats-item" style={{ borderBottom: 'none' }}>
-                    <span>GPA tích lũy:</span>
-                    <strong style={{ color: '#2563eb' }}>{cumulativeStats.gpa.toFixed(2)}</strong>
-                  </div>
-                </div>
+            {courses.length === 0 ? (
+              <p>Chưa có môn học nào</p>
+            ) : displayedCourses.length === 0 ? (
+              <p>Chưa có môn học nào phù hợp với tìm kiếm</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã môn</th>
+                    <th>Tên môn</th>
+                    <th>Tín chỉ</th>
+                    <th>Học kỳ</th>
+                    <th>Điểm (hệ 10)</th>
+                    <th>Điểm chữ</th>
+                    <th>Điểm (hệ 4)</th>
+                    <th style={{ textAlign: 'center' }}>Số lần render</th>
+                    <th>Xóa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayedCourses.map((c) => (
+                    <CourseRow
+                      key={c.id}
+                      course={c}
+                      onScore={handleScoreChange}
+                      onRemove={handleRemoveCourse}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            )}
 
-                <div style={{ marginTop: '24px' }}>
-                  <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: 700 }}>Phân bố điểm chữ</h3>
-                  <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
-                    {gradeDistribution.map(({ letter, count }) => (
-                      <li
-                        key={letter}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginBottom: '8px',
-                          fontSize: '14px',
-                        }}
-                      >
-                        <span style={{ width: '50px', fontWeight: 600 }}>{`${letter}: ${count}`}</span>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            height: '10px',
-                            width: `${24 * count}px`,
-                            backgroundColor: '#2563eb',
-                            borderRadius: '3px',
-                            marginLeft: '8px',
-                          }}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </section>
-
-              <GoalPlanner />
+            <div style={{ marginTop: '16px' }}>
+              <button onClick={handleResetSampleData} className="btn">
+                Đặt lại dữ liệu mẫu
+              </button>
             </div>
           </div>
         )}
 
-        {/* PHẦN 3: THÊM MÔN HỌC */}
-        {activeTab === 'add' && (
-          <div className="tab-panel">
-            <AddCourseForm />
+        {activeTab === 'stats' && (
+          <div>
+            <div className="section-box">
+              <h3>Thống kê</h3>
+              <div style={{ lineHeight: '1.8' }}>
+                <div>Số môn: {semesterStats.count}</div>
+                <div>Tổng tín chỉ: {semesterStats.credits}</div>
+                <div>GPA (hệ 4): {semesterStats.gpa.toFixed(2)}</div>
+                <div>Xếp loại: {semesterStats.rank}</div>
+                <div>GPA tích lũy: {cumulativeStats.gpa.toFixed(2)}</div>
+              </div>
+
+              <div style={{ marginTop: '16px' }}>
+                <h4 style={{ margin: '0 0 8px 0' }}>Phân bố điểm chữ</h4>
+                <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
+                  {gradeDistribution.map(({ letter, count }) => (
+                    <li
+                      key={letter}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <span style={{ width: '45px' }}>{`${letter}: ${count}`}</span>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          height: '10px',
+                          width: `${24 * count}px`,
+                          backgroundColor: '#1976d2',
+                          borderRadius: '2px',
+                          marginLeft: '8px',
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <GoalPlanner />
           </div>
         )}
+
+        {activeTab === 'add' && <AddCourseForm />}
       </div>
     </div>
   );

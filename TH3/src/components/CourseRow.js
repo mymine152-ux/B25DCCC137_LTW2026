@@ -12,11 +12,11 @@ const CourseRow = ({ course, onScore, onRemove }) => {
   return (
     <tr
       style={{
-        color: isF ? '#ef4444' : 'inherit',
-        backgroundColor: isF ? 'rgba(239, 68, 68, 0.06)' : 'transparent',
+        color: isF ? '#c62828' : 'inherit',
+        backgroundColor: isF ? 'rgba(198, 40, 40, 0.05)' : 'transparent',
       }}
     >
-      <td style={{ fontWeight: 600 }}>{course.code}</td>
+      <td>{course.code}</td>
       <td>{course.name}</td>
       <td style={{ textAlign: 'center' }}>{course.credits}</td>
       <td>{course.semester}</td>
@@ -34,18 +34,17 @@ const CourseRow = ({ course, onScore, onRemove }) => {
               onScore(course.id, val);
             }
           }}
-          className="input-control"
-          style={{ width: '75px', textAlign: 'center', padding: '4px 6px' }}
+          style={{ width: '65px', padding: '4px' }}
         />
       </td>
-      <td style={{ fontWeight: 600 }}>{isF ? 'F – Học lại' : gradeInfo.letter}</td>
+      <td>{isF ? 'F – Học lại' : gradeInfo.letter}</td>
       <td>{formatPoint(gradeInfo.point)}</td>
-      <td style={{ textAlign: 'center', fontWeight: 'bold' }}>{renderCountRef.current}</td>
+      <td style={{ textAlign: 'center' }}>{renderCountRef.current}</td>
       <td>
         <button
           onClick={() => onRemove(course.id, course.name)}
           className="btn btn-danger"
-          style={{ padding: '4px 10px', fontSize: '13px' }}
+          style={{ padding: '3px 8px', fontSize: '12px' }}
         >
           Xóa
         </button>

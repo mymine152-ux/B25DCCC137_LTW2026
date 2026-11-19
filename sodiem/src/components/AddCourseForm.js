@@ -75,17 +75,14 @@ const AddCourseForm = () => {
   };
 
   return (
-    <div className="card" style={{ marginTop: '24px' }}>
-      <h3 className="card-title">Thêm môn học</h3>
+    <div className="section-box">
+      <h3>Thêm môn học mới</h3>
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
           <div>
-            <label htmlFor="course-code" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
-              Mã môn:
-            </label>
+            <label htmlFor="course-code" style={{ display: 'block', marginBottom: '4px' }}>Mã môn:</label>
             <input
               id="course-code"
-              className="input-control"
               type="text"
               ref={codeInputRef}
               value={code}
@@ -93,38 +90,32 @@ const AddCourseForm = () => {
               style={{ width: '100%' }}
             />
             {errors.code && (
-              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+              <div role="alert" style={{ color: '#c62828', fontSize: '12px', marginTop: '4px' }}>
                 {errors.code}
               </div>
             )}
           </div>
 
           <div>
-            <label htmlFor="course-name" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
-              Tên môn:
-            </label>
+            <label htmlFor="course-name" style={{ display: 'block', marginBottom: '4px' }}>Tên môn:</label>
             <input
               id="course-name"
-              className="input-control"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{ width: '100%' }}
             />
             {errors.name && (
-              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+              <div role="alert" style={{ color: '#c62828', fontSize: '12px', marginTop: '4px' }}>
                 {errors.name}
               </div>
             )}
           </div>
 
           <div>
-            <label htmlFor="course-credits" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
-              Số tín chỉ:
-            </label>
+            <label htmlFor="course-credits" style={{ display: 'block', marginBottom: '4px' }}>Số tín chỉ:</label>
             <select
               id="course-credits"
-              className="select-control"
               value={credits}
               onChange={(e) => setCredits(Number(e.target.value))}
               style={{ width: '100%' }}
@@ -138,12 +129,9 @@ const AddCourseForm = () => {
           </div>
 
           <div>
-            <label htmlFor="course-semester" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
-              Học kỳ:
-            </label>
+            <label htmlFor="course-semester" style={{ display: 'block', marginBottom: '4px' }}>Học kỳ:</label>
             <select
               id="course-semester"
-              className="select-control"
               value={semester}
               onChange={(e) => setSemester(e.target.value)}
               style={{ width: '100%' }}
@@ -157,12 +145,9 @@ const AddCourseForm = () => {
           </div>
 
           <div>
-            <label htmlFor="course-score" style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 600 }}>
-              Điểm hệ 10:
-            </label>
+            <label htmlFor="course-score" style={{ display: 'block', marginBottom: '4px' }}>Điểm hệ 10:</label>
             <input
               id="course-score"
-              className="input-control"
               type="number"
               step="0.1"
               value={score}
@@ -170,14 +155,14 @@ const AddCourseForm = () => {
               style={{ width: '100%' }}
             />
             {errors.score && (
-              <div role="alert" style={{ color: '#ef4444', fontSize: '13px', marginTop: '4px' }}>
+              <div role="alert" style={{ color: '#c62828', fontSize: '12px', marginTop: '4px' }}>
                 {errors.score}
               </div>
             )}
           </div>
         </div>
 
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '16px' }}>
           <button type="submit" className="btn btn-primary">
             Thêm môn
           </button>
