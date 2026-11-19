@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.app.light {
+  background-color: #ffffff;
+  color: #18212c;
+}
+
+.app.dark {
+  background-color: #1f2430;
+  color: #e8eaf0;
+}
+
+.app.dark table {
+  border-color: #3b4252;
+}
+
+.app.dark th,
+.app.dark td {
+  border-color: #3b4252;
+}
+
+.app.dark input,
+.app.dark select {
+  background-color: #2a313d;
+  color: #e8eaf0;
+  border: 1px solid #4c566a;
+}
+
+.app.dark form,
+.app.dark .stat-box {
+  border-color: #3b4252 !important;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+th, td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.app.dark th {
+  background-color: rgba(255, 255, 255, 0.05);
+}
